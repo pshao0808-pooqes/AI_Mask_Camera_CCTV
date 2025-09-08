@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>서울시 CCTV 트래픽 모니터링</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="color-scheme" content="light dark">
+</head>
+<body>
+    <div class="container">
+        <!-- macOS 스타일 헤더 -->
+        <header class="header">
+            <h1>서울시 CCTV 실시간 트래픽 모니터링</h1>
+            <div class="status-indicator">
+                <div id="device-status" class="device-status">
+                    🖥️ 감지 중...
+                </div>
+                <span id="connection-status" class="status-disconnected">연결 중...</span>
+            </div>
+        </header>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="main-content">
+            <!-- macOS 스타일 사이드바 -->
+            <aside class="sidebar">
+                <div class="sidebar-section">
+                    <h3>CCTV 목록</h3>
+                    <div id="cctv-list" class="cctv-list">
+                        <div class="loading">CCTV 목록을 불러오는 중...</div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>트래픽 통계</h3>
+                    <div id="traffic-stats" class="traffic-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">활성 CCTV</span>
+                            <span id="active-cctv-count" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">총 차량 수</span>
+                            <span id="total-vehicles" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">평균 속도</span>
+                            <span id="avg-speed" class="stat-value">0 km/h</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>시스템 정보</h3>
+                    <div id="system-info" class="system-info">
+                        <div id="system-info-details" class="device-details">
+                            시스템 정보를 불러오는 중...
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3>트래픽 기준</h3>
+                    <div class="system-info">
+                        <div class="device-details">
+                            <strong>원활:</strong> 10대 이하<br>
+                            <strong>보통:</strong> 11-20대<br>
+                            <strong>혼잡:</strong> 21대 이상<br><br>
+                            <strong>단축키:</strong><br>
+                            ⌘+1: 첫 번째 CCTV 선택<br>
+                            ⌘+A: 전체 토글<br><br>
+                            <strong>📊 대시보드:</strong><br>
+                            각 CCTV 항목의 📊 버튼을<br>
+                            클릭하여 상세 분석 확인
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 메인 영역 -->
+            <main class="main-area">
+                <!-- 지도 -->
+                <div class="map-container">
+                    <h2>실시간 트래픽 지도</h2>
+                    <div id="map"></div>
+                </div>
+
+                <!-- CCTV 영상 그리드 -->
+                <div class="video-container">
+                    <h2>실시간 CCTV 영상</h2>
+                    <div id="video-grid" class="video-grid">
+                        <div class="no-video">
+                            <i class="fas fa-video-slash"></i>
+                            <p>모니터링 중인 CCTV가 없습니다</p>
+                            <p>좌측 목록에서 CCTV를 선택해주세요</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- 스크립트 -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CCTV {{ cctv.id }} 대시보드</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- 헤더 -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1><i class="fas fa-video"></i> {{ cctv.name }}</h1>
+                <span class="location">{{ "%.4f"|format(cctv.lat) }}, {{ "%.4f"|format(cctv.lon) }}</span>
+            </div>
+            <div class="header-right">
+                <span class="status-badge inactive" id="status-badge">비활성</span>
+                <button id="start-monitoring" class="btn btn-primary">
+                    <i class="fas fa-play"></i> 시작
+                </button>
+                <button id="stop-monitoring" class="btn btn-danger" style="display: none;">
+                    <i class="fas fa-stop"></i> 중지
+                </button>
+            </div>
+        </header>
+
+        <!-- 메인 콘텐츠 -->
+        <main class="dashboard-main">
+            <!-- 비디오 영역 -->
+            <div class="video-section">
+                <div class="video-container">
+                    <img id="dashboard-video" alt="CCTV 영상" style="display: none;">
+                    <div class="video-placeholder">
+                        <i class="fas fa-video-slash"></i>
+                        <p>모니터링을 시작하세요</p>
+                    </div>
+                </div>
+                
+                <!-- 실시간 정보 -->
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="card-icon">🚗</div>
+                        <div class="card-content">
+                            <div class="card-value" id="current-vehicles">0</div>
+                            <div class="card-label">현재 차량</div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">⚡</div>
+                        <div class="card-content">
+                            <div class="card-value">
+                                <span id="avg-speed">0</span>
+                                <span class="unit">km/h</span>
+                            </div>
+                            <div class="card-label">평균 속도</div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-icon">🚦</div>
+                        <div class="card-content">
+                            <div class="card-value">
+                                <span class="traffic-level-badge smooth" id="traffic-level">원활</span>
+                            </div>
+                            <div class="card-label">교통 상황</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 데이터 패널 -->
+            <div class="data-section">
+                <!-- 차량 유동량 -->
+                <div class="section-card">
+                    <h3><i class="fas fa-chart-line"></i> 차량 유동량</h3>
+                    <div class="flow-summary">
+                        <span class="flow-stat">
+                            <span class="flow-label">진입</span>
+                            <span class="flow-value" id="total-in">0</span>
+                        </span>
+                        <span class="flow-stat">
+                            <span class="flow-label">진출</span>
+                            <span class="flow-value" id="total-out">0</span>
+                        </span>
+                    </div>
+                    <div class="flow-table-container">
+                        <table class="flow-table">
+                            <thead>
+                                <tr>
+                                    <th>시간</th>
+                                    <th>진입</th>
+                                    <th>진출</th>
+                                </tr>
+                            </thead>
+                            <tbody id="flow-table-body">
+                                <!-- 동적 생성 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- 시스템 상태 -->
+                <div class="section-card">
+                    <h3><i class="fas fa-server"></i> 시스템 상태</h3>
+                    <div class="status-list">
+                        <div class="status-item">
+                            <div class="status-indicator active" id="camera-indicator"></div>
+                            <span>카메라</span>
+                            <span class="status-value" id="camera-status">대기</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator active" id="ai-indicator"></div>
+                            <span>AI 모델</span>
+                            <span class="status-value" id="ai-status">로드됨</span>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator active" id="network-indicator"></div>
+                            <span>네트워크</span>
+                            <span class="status-value" id="network-status">연결됨</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 제어 패널 -->
+                <div class="section-card">
+                    <h3><i class="fas fa-cogs"></i> 제어</h3>
+                    <div class="control-options">
+                        <div class="control-group">
+                            <label>감지 민감도: <span id="sensitivity-value">0.5</span></label>
+                            <input type="range" id="sensitivity-slider" min="0.3" max="0.9" step="0.1" value="0.5">
+                        </div>
+                        <div class="control-buttons">
+                            <button id="reset-data" class="btn btn-warning">
+                                <i class="fas fa-undo"></i> 리셋
+                            </button>
+                            <button id="export-data" class="btn btn-info">
+                                <i class="fas fa-download"></i> 내보내기
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        window.cctvInfo = {  
+            id: {{ cctv.id }},
+            name: "{{ cctv.name }}",
+            lat: {{ cctv.lat }},         
+            lon: {{ cctv.lon }}
+        };
+    </script>
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
