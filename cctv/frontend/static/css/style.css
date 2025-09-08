@@ -1,0 +1,697 @@
+/* macOS 스타일 CSS */
+/* frontend/static/css/style.css */
+:root {
+    /* macOS 시스템 컬러 */
+    --system-blue: #007AFF;
+    --system-green: #34C759;
+    --system-indigo: #5856D6;
+    --system-orange: #FF9500;
+    --system-pink: #FF2D92;
+    --system-purple: #AF52DE;
+    --system-red: #FF3B30;
+    --system-teal: #5AC8FA;
+    --system-yellow: #FFCC00;
+    
+    /* macOS 그레이 스케일 */
+    --system-gray: #8E8E93;
+    --system-gray2: #AEAEB2;
+    --system-gray3: #C7C7CC;
+    --system-gray4: #D1D1D6;
+    --system-gray5: #E5E5EA;
+    --system-gray6: #F2F2F7;
+    
+    /* macOS 배경색 */
+    --background-primary: #FFFFFF;
+    --background-secondary: #F2F2F7;
+    --background-tertiary: #FFFFFF;
+    --background-grouped: #F2F2F7;
+    
+    /* macOS 라벨 컬러 */
+    --label-primary: #000000;
+    --label-secondary: #3C3C43;
+    --label-tertiary: #3C3C4399;
+    --label-quaternary: #3C3C432E;
+    
+    /* macOS 분리선 */
+    --separator: #3C3C4349;
+    --separator-opaque: #C6C6C8;
+    
+    /* macOS 그림자 */
+    --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --shadow-heavy: 0 8px 25px rgba(0, 0, 0, 0.2);
+    
+    /* macOS 블러 효과 */
+    --blur-background: rgba(255, 255, 255, 0.8);
+    --blur-material: rgba(246, 246, 246, 0.8);
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-primary: #000000;
+        --background-secondary: #1C1C1E;
+        --background-tertiary: #2C2C2E;
+        --background-grouped: #000000;
+        
+        --label-primary: #FFFFFF;
+        --label-secondary: #EBEBF5;
+        --label-tertiary: #EBEBF599;
+        --label-quaternary: #EBEBF52E;
+        
+        --separator: #54545899;
+        --separator-opaque: #38383A;
+        
+        --blur-background: rgba(28, 28, 30, 0.8);
+        --blur-material: rgba(44, 44, 46, 0.8);
+    }
+}
+
+/* 기본 스타일 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background-grouped);
+    color: var(--label-primary);
+    font-size: 14px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* macOS 스타일 헤더 */
+.header {
+    background: var(--blur-background);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--separator);
+    color: var(--label-primary);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header h1 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.41px;
+    color: var(--label-primary);
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-connected {
+    color: var(--system-green);
+    font-weight: 590;
+    font-size: 13px;
+}
+
+.status-disconnected {
+    color: var(--system-red);
+    font-weight: 590;
+    font-size: 13px;
+}
+
+.device-status {
+    background: var(--blur-material);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 590;
+    border: 1px solid var(--separator);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.device-gpu {
+    background: rgba(52, 199, 89, 0.1);
+    border-color: var(--system-green);
+    color: var(--system-green);
+}
+
+.device-cpu {
+    background: rgba(255, 149, 0, 0.1);
+    border-color: var(--system-orange);
+    color: var(--system-orange);
+}
+
+/* 메인 컨텐츠 */
+.main-content {
+    display: flex;
+    flex: 1;
+    gap: 16px;
+    padding: 16px;
+}
+
+/* macOS 스타일 사이드바 */
+.sidebar {
+    width: 320px;
+    background: var(--background-primary);
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--separator);
+    padding: 0;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.sidebar-section {
+    border-bottom: 1px solid var(--separator);
+}
+
+.sidebar-section:last-child {
+    border-bottom: none;
+}
+
+.sidebar-section h3 {
+    color: var(--label-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.08px;
+    text-transform: uppercase;
+    padding: 16px 16px 8px 16px;
+    background: var(--background-secondary);
+}
+
+/* CCTV 목록 */
+.cctv-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.cctv-item {
+    background: transparent;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--separator);
+    position: relative;
+}
+
+.cctv-item:last-child {
+    border-bottom: none;
+}
+
+.cctv-item:hover {
+    background: var(--background-secondary);
+}
+
+.cctv-item.active {
+    background: var(--system-blue);
+    color: white;
+}
+
+.cctv-item.active * {
+    color: white !important;
+}
+
+.cctv-item h4 {
+    font-size: 15px;
+    font-weight: 590;
+    margin-bottom: 4px;
+    color: var(--label-primary);
+    letter-spacing: -0.24px;
+}
+
+.cctv-item .cctv-info {
+    font-size: 12px;
+    color: var(--label-secondary);
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
+.cctv-item .traffic-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.traffic-level {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06px;
+    text-transform: uppercase;
+}
+
+.traffic-detail {
+    background: var(--background-secondary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 500;
+    color: var(--label-secondary);
+}
+
+.cctv-item.active .traffic-detail {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.device-indicator {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.device-indicator.device-gpu {
+    background: rgba(52, 199, 89, 0.15);
+    color: var(--system-green);
+}
+
+.device-indicator.device-cpu {
+    background: rgba(255, 149, 0, 0.15);
+    color: var(--system-orange);
+}
+
+.cctv-item.active .device-indicator {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+/* 대시보드 버튼 */
+.dashboard-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--system-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.8;
+}
+
+.dashboard-button:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.cctv-item.active .dashboard-button {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+/* 트래픽 통계 */
+.traffic-stats, .system-info {
+    padding: 16px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    padding: 8px 0;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-label {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--label-primary);
+}
+
+.stat-value {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--system-blue);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 시스템 정보 */
+.device-details {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--label-secondary);
+}
+
+.device-details strong {
+    color: var(--label-primary);
+    font-weight: 590;
+}
+
+/* 메인 영역 */
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 지도 컨테이너 */
+.map-container {
+    background: var(--background-primary);
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--separator);
+    padding: 16px;
+    height: 400px;
+}
+
+.map-container h2 {
+    color: var(--label-primary);
+    margin-bottom: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.41px;
+}
+
+#map {
+    height: calc(100% - 45px);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--separator);
+}
+
+/* 비디오 컨테이너 */
+.video-container {
+    background: var(--background-primary);
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--separator);
+    padding: 16px;
+    flex: 1;
+    min-height: 300px;
+}
+
+.video-container h2 {
+    color: var(--label-primary);
+    margin-bottom: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.41px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    height: calc(100% - 45px);
+}
+
+.video-item {
+    background: var(--background-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    min-height: 240px;
+    border: 1px solid var(--separator);
+    box-shadow: var(--shadow-light);
+}
+
+.video-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, transparent 100%);
+    color: white;
+    padding: 12px;
+}
+
+.video-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    letter-spacing: -0.08px;
+}
+
+.video-stats {
+    font-size: 12px;
+    opacity: 0.9;
+    font-weight: 400;
+}
+
+.no-video {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--label-tertiary);
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.no-video i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+    color: var(--system-gray);
+}
+
+.no-video p {
+    font-size: 15px;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.no-video p:first-of-type {
+    font-weight: 590;
+    color: var(--label-secondary);
+}
+
+/* 로딩 */
+.loading {
+    text-align: center;
+    padding: 24px;
+    color: var(--label-secondary);
+    font-size: 14px;
+}
+
+/* macOS 스타일 스크롤바 */
+.cctv-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.cctv-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.cctv-list::-webkit-scrollbar-thumb {
+    background: var(--system-gray3);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+.cctv-list::-webkit-scrollbar-thumb:hover {
+    background: var(--system-gray2);
+    background-clip: content-box;
+}
+
+/* macOS 스타일 버튼 */
+.mac-button {
+    background: var(--system-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 590;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.mac-button:hover {
+    background: #0056CC;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-light);
+}
+
+.mac-button:active {
+    transform: translateY(0);
+    background: #004999;
+}
+
+.mac-button.secondary {
+    background: var(--background-secondary);
+    color: var(--label-primary);
+    border: 1px solid var(--separator);
+}
+
+.mac-button.secondary:hover {
+    background: var(--system-gray6);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+        padding: 12px;
+        gap: 12px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        order: 2;
+    }
+    
+    .main-area {
+        order: 1;
+    }
+    
+    .map-container {
+        height: 300px;
+    }
+    
+    .video-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .traffic-info {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .header {
+        padding: 8px 16px;
+    }
+    
+    .header h1 {
+        font-size: 16px;
+    }
+    
+    .device-status {
+        font-size: 11px;
+        padding: 4px 8px;
+    }
+}
+
+/* macOS 스타일 포커스 */
+.cctv-item:focus,
+.mac-button:focus {
+    outline: 2px solid var(--system-blue);
+    outline-offset: 2px;
+}
+
+/* macOS 스타일 선택 효과 */
+::selection {
+    background: var(--system-blue);
+    color: white;
+}
+
+/* 애니메이션 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.cctv-item,
+.video-item {
+    animation: fadeIn 0.3s ease;
+}
+
+/* 트래픽 레벨별 macOS 컬러 */
+.traffic-level.smooth {
+    background-color: var(--system-green);
+    color: white;
+}
+
+.traffic-level.normal {
+    background-color: var(--system-orange);
+    color: white;
+}
+
+.traffic-level.congested {
+    background-color: var(--system-red);
+    color: white;
+}
+
+/* 지도 마커 스타일 개선 */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+    border: 1px solid var(--separator);
+}
+
+.leaflet-popup-content {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* 상태 표시등 */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.status-dot.connected {
+    background-color: var(--system-green);
+    box-shadow: 0 0 6px rgba(52, 199, 89, 0.4);
+}
+
+.status-dot.disconnected {
+    background-color: var(--system-red);
+    box-shadow: 0 0 6px rgba(255, 59, 48, 0.4);
+}
+
+
+#accident-toggle {
+    background: var(--system-blue);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+}
