@@ -58,7 +58,7 @@ AI 기반 CCTV 통합 플랫폼은 실시간 차량 탐지, 교통량 분석, �
 
 ```bash
 # 저장소 클론
-git clone https://github.com/your-username/ai-cctv-platform.git
+git clone https://github.com/pshao0808-pooqes/AI_Mask_Camera_CCTV.git
 cd ai-cctv-platform
 
 # 가상환경 생성 및 활성화
@@ -345,12 +345,7 @@ logging.basicConfig(level=logging.DEBUG)
 - **도로교통공단**: 교통사고 데이터 API 제공
 - **OpenCV Community**: 영상 처리 라이브러리
 
-## 📞 연락처
 
-- **개발자**: [Your Name]
-- **이메일**: your.email@example.com
-- **GitHub**: [@your-username](https://github.com/your-username)
-- **프로젝트 링크**: [https://github.com/your-username/ai-cctv-platform](https://github.com/your-username/ai-cctv-platform)
 
 ---
 
